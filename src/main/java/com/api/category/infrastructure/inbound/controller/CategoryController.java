@@ -45,9 +45,20 @@ public class CategoryController {
 
     @PostMapping
     private CategoryDTO saveCategory(@RequestBody CategoryDTO categoryDTO) {
-        CategoryEntity categoryEntity = this.categoryRepository.save(
-                categoryMapper.categoryDTOToCategoryEntity(categoryDTO)
-        );
+        if(categoryDTO.getName() == null || categoryDTO.getName().isEmpty() || categoryDTO.getName().length()>50){
+            throw new IllegalArgumentException("El nombre no puede estar vacío y debe tener un máximo de 50 caracteres.");
+
+        }
+        if(categoryDTO.getDescription() == null || categoryDTO.getDescription().isEmpty() || categoryDTO.getDescription().length()>90){
+            throw new IllegalArgumentException("La descripción no puede estar vacía y debe tener un máximo de 90 caracteres.");
+
+        }
+        if (categoryRepository.existsByName(categoryDTO.getName())) {
+            throw new IllegalArgumentException("El nombre de la categoría ya está en uso.");
+        }
+
+        CategoryEntity category =  categoryMapper.categoryDTOToCategoryEntity(categoryDTO);
+        CategoryEntity categoryEntity = this.categoryRepository.save(category);
         return categoryMapper.categoryEntityToCategoryDTO(categoryEntity);
     }
 
