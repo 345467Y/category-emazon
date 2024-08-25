@@ -1,7 +1,7 @@
-package com.api.category.mapper;
+package com.api.stock.mapper;
 
-import com.api.category.domain.model.CategoryDTO;
-import com.api.category.domain.model.entity.CategoryEntity;
+import com.api.stock.domain.model.CategoryDTO;
+import com.api.stock.domain.model.entity.CategoryEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

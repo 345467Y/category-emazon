@@ -1,4 +1,4 @@
-package com.api.category.domain.model.entity;
+package com.api.stock.domain.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

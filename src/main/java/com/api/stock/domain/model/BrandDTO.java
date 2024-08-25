@@ -1,4 +1,4 @@
-package com.api.category.domain.model;
+package com.api.stock.domain.model;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
+public class BrandDTO {
     private Long id;
     private String name;
     private String description;
