@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -26,16 +25,16 @@ public class ProductController {
     }
 
     @GetMapping
-    private ResponseEntity<List<ProductDTO>> getProducts() {
+    public ResponseEntity<List<ProductDTO>> getProducts() {
         return ResponseEntity.ok(productRepository
                 .findAll()
                 .stream()
-                .map(productEntity -> productMapper.productEntityToProductDTO(productEntity))
-                .collect(Collectors.toList()));
+                .map(productMapper::productEntityToProductDTO)
+                .toList());
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         Optional<ProductEntity> productOptional = productRepository
                 .findById(id);
         return productOptional.map(productEntity -> ResponseEntity.ok().body(productMapper.productEntityToProductDTO(productEntity)))
@@ -44,7 +43,7 @@ public class ProductController {
 
 
     @PostMapping
-    private ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO productDTO) {
         ProductEntity productEntity = this.productRepository.save(
                 productMapper.productDTOToProductEntity(productDTO)
         );

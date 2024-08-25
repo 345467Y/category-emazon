@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categories")
@@ -30,7 +29,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    private ResponseEntity<Page<CategoryDTO>> getCategories(
+    public ResponseEntity<Page<CategoryDTO>> getCategories(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sortBy,
@@ -45,7 +44,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
         Optional<CategoryEntity> categoryOptional = categoryRepository
                 .findById(id);
         return categoryOptional.map(categoryEntity -> ResponseEntity.ok().body(categoryMapper.categoryEntityToCategoryDTO(categoryEntity)))
@@ -54,7 +53,7 @@ public class CategoryController {
 
 
     @PostMapping
-    private ResponseEntity<CategoryDTO> saveCategory(@RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<CategoryDTO> saveCategory(@RequestBody CategoryDTO categoryDTO) {
         if(categoryDTO.getName() == null || categoryDTO.getName().trim().isEmpty()){
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
 

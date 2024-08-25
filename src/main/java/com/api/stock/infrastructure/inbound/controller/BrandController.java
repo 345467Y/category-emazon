@@ -26,16 +26,16 @@ public class BrandController {
     }
 
     @GetMapping
-    private ResponseEntity<List<BrandDTO>> getBrands() {
+    public ResponseEntity<List<BrandDTO>> getBrands() {
         return ResponseEntity.ok(brandRepository
                 .findAll()
                 .stream()
-                .map(brandEntity -> brandMapper.brandEntityToBrandDTO(brandEntity))
-                .collect(Collectors.toList()));
+                .map(brandMapper::brandEntityToBrandDTO)
+                .toList());
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<BrandDTO> getBrandById(@PathVariable Long id) {
+    public ResponseEntity<BrandDTO> getBrandById(@PathVariable Long id) {
         Optional<BrandEntity> brandOptional = brandRepository
                 .findById(id);
         return brandOptional.map(brandEntity -> ResponseEntity.ok().body(brandMapper.brandEntityToBrandDTO(brandEntity)))
@@ -44,7 +44,7 @@ public class BrandController {
 
 
     @PostMapping
-    private ResponseEntity<BrandDTO> saveBrand(@RequestBody BrandDTO brandDTO) {
+    public ResponseEntity<BrandDTO> saveBrand(@RequestBody BrandDTO brandDTO) {
         if(brandDTO.getName() == null || brandDTO.getName().trim().isEmpty()){
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
 
